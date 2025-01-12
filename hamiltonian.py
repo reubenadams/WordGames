@@ -121,7 +121,9 @@ def hamiltonian_cycle_from_tree(grid_cycle_points, tree_midpoints):
     return path
 
 
-def hamiltonian_cycle(rows, cols):
+def hamiltonian_cycle(rows, cols, return_tree=False):
+    if not (rows % 2 == 0 and cols % 2 == 0):
+        raise ValueError("The number of rows and columns must both be even.")
     grid_cycle = grid_graph(rows, cols)
     grid_tree = grid_graph(rows // 2, cols // 2)
     tree = spanning_tree(grid_tree)
@@ -129,4 +131,6 @@ def hamiltonian_cycle(rows, cols):
     tree_midpoints = midpoints(expand_tree(tree))
     hamiltonian_cycle = hamiltonian_cycle_from_tree(list(grid_cycle), tree_midpoints)
     print("Finished Hamiltonian Cycle")
+    if return_tree:
+        return hamiltonian_cycle, expand_tree(tree)
     return hamiltonian_cycle

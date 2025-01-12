@@ -3,10 +3,10 @@ import pygame
 from hamiltonian import hamiltonian_cycle
 
 
-rows, cols = 15, 15
+rows, cols = 40, 40
 cell_width = 20
-screen_width = cols * cell_width
-screen_height = rows * cell_width
+screen_width = (cols + 1) * cell_width
+screen_height = (rows + 1) * cell_width
 
 
 def cell_to_pix(coord):
@@ -19,10 +19,10 @@ def draw_path(screen, path):
 
 def draw_edges(screen, edges):
     for start, end in edges:
-        pygame.draw.line(screen, 'grey', cell_to_pix(start), cell_to_pix(end), 2)
+        pygame.draw.line(screen, 'white', cell_to_pix(start), cell_to_pix(end), 1)
 
 
-cycle = hamiltonian_cycle(rows, cols)
+cycle = hamiltonian_cycle(rows, cols, return_tree=False)
 
 
 pygame.init()
@@ -36,5 +36,6 @@ while True:
             exit()
     
     screen.fill('black')
+    # draw_edges(screen, tree)
     draw_path(screen, cycle)
     pygame.display.update()
