@@ -133,31 +133,5 @@ def hamiltonian_cycle(rows, cols, return_tree=False):
     return hamiltonian_cycle
 
 
-# def fill_in_path(path):
-#     filled_path = []
-#     start = path[0]
-#     for end in path[1:]:
-#         if start[0] == end[0]:
-#             if start[1] < end[1]:
-#                 segment = [(start[0], c) for c in range(start[1], end[1])]
-#             elif start[1] > end[1]:
-#                 segment = [(start[0], c) for c in range(start[1], end[1], -1)]
-#             else:
-#                 raise ValueError("Path contains repeated nodes")
-#         elif start[1] == end[1]:
-#             if start[0] < end[0]:
-#                 segment = [(r, start[1]) for r in range(start[0], end[0])]
-#             elif start[0] > end[0]:
-#                 segment = [(r, start[1]) for r in range(start[0], end[0], -1)]
-#             else:
-#                 raise ValueError("Path contains repeated nodes")
-#         else:
-#             raise ValueError("Path contains diagonal nodes")
-#         filled_path.extend(segment)
-#         start = end
-#     filled_path.append(path[-1])
-#     return filled_path
-
-
 if __name__ == "__main__":
     print(hamiltonian_cycle(4, 4))
