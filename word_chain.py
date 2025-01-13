@@ -1,8 +1,10 @@
 from itertools import product
 from collections import defaultdict
-import random
+from random import shuffle, choice
+
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
+
 
 class Corpus:
     def __init__(self, path, min_length):
@@ -29,18 +31,21 @@ class Corpus:
                 if word[0] == start_char and len(word) <= max_length:
                     self.start_max_length_lists[(start_char, max_length)].append(word)
 
-    def start_end_length_list(self, start_char, end_char, length, shuffle=True):
+    def start_end_length_list(self, start_char, end_char, length, shuffled=True):
         L = list(self.start_end_length_lists[(start_char, end_char, length)])
-        if shuffle:
-            random.shuffle(L)
+        if shuffled:
+            shuffle(L)
         return L
     
-    def start_max_length_list(self, start_char, max_length, shuffle=True):
+    def start_max_length_list(self, start_char, max_length, shuffled=True):
         max_length = min(max_length, self.max_word_length)
         L = list(self.start_max_length_lists[(start_char, max_length)])
-        if shuffle:
-            random.shuffle(L)
+        if shuffled:
+            shuffle(L)
         return L
+    
+    def random_word(self):
+        return choice(self.word_list)
 
 
 class TreeNode:
@@ -53,7 +58,7 @@ class TreeNode:
 
         self.current_snake_length = sum([len(word) for word in word_list]) - (len(word_list) - 1)
         self.snake_complete = total_snake_length == self.current_snake_length - 1
-        self.remaining_length = self.total_snake_length - self.current_snake_length
+        self.remaining_length = total_snake_length - self.current_snake_length
         self.completion_length = self.remaining_length + 2
         self.max_non_completion_length = self.completion_length - (corpus.min_word_length - 1)
 
@@ -94,5 +99,12 @@ class TreeNode:
 
 
 corpus = Corpus("word_lists/words_english_2k.txt", 3)
-root = TreeNode(word_list=["hippopotamus"], total_snake_length=2200, corpus=corpus)
-print(root.depth_first_search())
+
+
+def get_snake(snake_length):
+    snake = None
+    while snake is None:
+        first_word = corpus.random_word()
+        root = TreeNode(word_list=[first_word], total_snake_length=snake_length, corpus=corpus)
+        snake = root.depth_first_search()
+    return snake

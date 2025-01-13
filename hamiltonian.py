@@ -116,7 +116,6 @@ def hamiltonian_cycle_from_tree(grid_cycle_points, tree_midpoints):
         else:
             raise ValueError("Direction not found")
         if new_node == path[0]:
-            path.append(new_node)
             break
     return path
 
@@ -127,10 +126,38 @@ def hamiltonian_cycle(rows, cols, return_tree=False):
     grid_cycle = grid_graph(rows, cols)
     grid_tree = grid_graph(rows // 2, cols // 2)
     tree = spanning_tree(grid_tree)
-    print("Finished Tree")
     tree_midpoints = midpoints(expand_tree(tree))
     hamiltonian_cycle = hamiltonian_cycle_from_tree(list(grid_cycle), tree_midpoints)
-    print("Finished Hamiltonian Cycle")
     if return_tree:
         return hamiltonian_cycle, expand_tree(tree)
     return hamiltonian_cycle
+
+
+# def fill_in_path(path):
+#     filled_path = []
+#     start = path[0]
+#     for end in path[1:]:
+#         if start[0] == end[0]:
+#             if start[1] < end[1]:
+#                 segment = [(start[0], c) for c in range(start[1], end[1])]
+#             elif start[1] > end[1]:
+#                 segment = [(start[0], c) for c in range(start[1], end[1], -1)]
+#             else:
+#                 raise ValueError("Path contains repeated nodes")
+#         elif start[1] == end[1]:
+#             if start[0] < end[0]:
+#                 segment = [(r, start[1]) for r in range(start[0], end[0])]
+#             elif start[0] > end[0]:
+#                 segment = [(r, start[1]) for r in range(start[0], end[0], -1)]
+#             else:
+#                 raise ValueError("Path contains repeated nodes")
+#         else:
+#             raise ValueError("Path contains diagonal nodes")
+#         filled_path.extend(segment)
+#         start = end
+#     filled_path.append(path[-1])
+#     return filled_path
+
+
+if __name__ == "__main__":
+    print(hamiltonian_cycle(4, 4))

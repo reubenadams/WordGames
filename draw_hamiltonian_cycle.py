@@ -3,7 +3,7 @@ import pygame
 from hamiltonian import hamiltonian_cycle
 
 
-rows, cols = 40, 40
+rows, cols = 4, 4
 cell_width = 20
 screen_width = (cols + 1) * cell_width
 screen_height = (rows + 1) * cell_width
@@ -23,6 +23,7 @@ def draw_edges(screen, edges):
 
 
 cycle = hamiltonian_cycle(rows, cols, return_tree=False)
+print(f"Cycle: {cycle}")
 
 
 pygame.init()
