@@ -1,4 +1,3 @@
-# TODO: Speed things up a bit as it fails to draw if move mouse too quickly
 # TODO: Rename snake to word chain
 
 # Steps:
@@ -77,12 +76,6 @@ def draw_chars(screen, char_arr, alphabet_texts, char_rects, rows, cols):
             screen.blit(char_text, char_rect)
 
 
-def draw_segments(screen, segments, color):
-    for segment in segments:
-        for start, end in zip(segment[:-1], segment[1:]):
-            pygame.draw.line(screen, color, cell_to_pix(start, middle=True), cell_to_pix(end, middle=True), 3)
-
-
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height))
 
@@ -109,9 +102,8 @@ def get_direction(start, end):
 
 
 
-
 alphabet_texts = {char: font.render(char, True, 'grey') for char in alphabet}
-char_centers = {(r, c): cell_to_pix((r + 0.5, c + 0.5)) for r in range(rows) for c in range(cols)}
+char_centers = {(r, c): cell_to_pix((r, c), middle=True) for r in range(rows) for c in range(cols)}
 char_rects = {(r, c): alphabet_texts[char_arr[r, c]].get_rect(center=char_centers[(r, c)]) for r in range(rows) for c in range(cols)}
 
 snake_start_surfs, snake_end_surfs = get_snake_surfs(CELL_WIDTH, SNAKE_COLOR)
@@ -145,9 +137,7 @@ while True:
             selected_squares = []
     
     screen.fill(BACKGROUND_COLOR)
-    # draw_squares(screen, found_squares, SNAKE_COLOR)
     draw_snake(screen, found_squares, snake_start_surfs, snake_end_surfs, cycle_linked_list)
     draw_squares(screen, selected_squares, color=(80, 80, 80))
-    # draw_segments(screen, found_segments, color='red')
     draw_chars(screen, char_arr, alphabet_texts, char_rects, rows, cols)
     pygame.display.update()
