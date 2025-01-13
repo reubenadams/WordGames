@@ -1,4 +1,4 @@
-# TODO: When your mouse goes off the screen the selected cells seems to go awry
+# TODO: Speed things up a bit as it fails to draw if move mouse too quickly
 
 # Steps:
 # 1. User specifies rows and cols
@@ -21,13 +21,16 @@ import pygame
 # from backend import get_segments
 
 from backend import get_cycle_segments_and_char_arr
+from hamiltonian import grid_neighbours
 
 
 rows, cols = 14, 14
-cell_width = 40
-screen_width = cols * cell_width
-screen_height = rows * cell_width
+CELL_WIDTH = 40
+screen_width = cols * CELL_WIDTH
+screen_height = rows * CELL_WIDTH
 FONTSIZE = 30
+BACKGROUND_COLOR = 'black'
+SNAKE_COLOR = 'darkgreen'
 
 
 def cell_to_pix(coord, middle=False):
@@ -35,18 +38,18 @@ def cell_to_pix(coord, middle=False):
     if middle:
         r += 0.5
         c += 0.5
-    return c * cell_width, r * cell_width
+    return c * CELL_WIDTH, r * CELL_WIDTH
 
 
 def pix_to_cell(coord):
     x, y = coord
-    return y // cell_width, x // cell_width
+    return y // CELL_WIDTH, x // CELL_WIDTH
 
 
 def draw_squares(screen, coords, color):
     for coord in coords:
         pixes = cell_to_pix(coord)
-        rect = pygame.Rect(pixes[0], pixes[1], cell_width, cell_width)
+        rect = pygame.Rect(pixes[0], pixes[1], CELL_WIDTH, CELL_WIDTH)
         pygame.draw.rect(screen, color, rect)
 
 
@@ -96,15 +99,20 @@ while True:
                 pos = pygame.mouse.get_pos()
                 coord = pix_to_cell(pos)
                 if coord not in selected_squares:
-                    selected_squares.append(coord)
+                    if selected_squares:
+                        last_coord = selected_squares[-1]
+                        if coord in grid_neighbours(last_coord[0], last_coord[1], rows, cols):
+                            selected_squares.append(coord)
+                    else:
+                        selected_squares.append(coord)
         if event.type == pygame.MOUSEBUTTONUP:
             if selected_squares in segments:
                 found_segments.append(selected_squares)
                 found_squares.extend(selected_squares)
             selected_squares = []
     
-    screen.fill('black')
-    draw_squares(screen, found_squares, 'darkgreen')
+    screen.fill(BACKGROUND_COLOR)
+    draw_squares(screen, found_squares, SNAKE_COLOR)
     draw_squares(screen, selected_squares, color=(80, 80, 80))
     draw_segments(screen, found_segments, color='red')
     draw_chars(screen, char_arr, alphabet_texts, char_rects, rows, cols)
