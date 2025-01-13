@@ -33,6 +33,17 @@ def get_cycle_segments_and_char_arr(rows, cols):
     return cycle, snake, segments, char_arr
 
 
+def get_linked_list(cycle):
+    linked_list = {}
+    nodes = cycle[:-1]
+    num_nodes = len(nodes)
+    for i, node in enumerate(nodes):
+        before = cycle[(i - 1) % num_nodes]
+        after = cycle[(i + 1) % num_nodes]
+        linked_list[node] = (before, after)
+    return linked_list
+
+
 if __name__ == "__main__":
 
     rows, cols = 2, 4
@@ -43,3 +54,6 @@ if __name__ == "__main__":
     print("segments", segments)
     print("char_arr")
     print(char_arr)
+
+    cycle = [0, 1, 2, 3, 4, 5, 0]
+    print(get_linked_list(cycle))
