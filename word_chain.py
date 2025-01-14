@@ -1,3 +1,4 @@
+from os import path
 from itertools import product
 from collections import defaultdict
 from random import shuffle, choice
@@ -7,9 +8,11 @@ alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 
 class Corpus:
-    def __init__(self, path, min_length):
+    def __init__(self, file_path, min_length):
 
-        with open(path, "r") as f:
+        file_path = path.abspath(path.join(path.dirname(__file__), file_path))
+
+        with open(file_path, "r") as f:
             word_list = f.readlines()
         
         word_list = [word.strip() for word in word_list]
@@ -98,7 +101,7 @@ class TreeNode:
                 return result
 
 
-corpus = Corpus("word_lists/words_english_2k.txt", 3)
+corpus = Corpus("words_english_2k.txt", 3)
 
 
 def get_snake(snake_length):
