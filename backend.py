@@ -25,8 +25,10 @@ def get_char_arr(cycle, snake, rows, cols):
     return arr
 
 
-def get_cycle_segments_and_char_arr(rows, cols):
+def get_cycle_segments_and_char_arr(rows, cols, reverse_cycle=True):
     cycle = hamiltonian_cycle(rows, cols)
+    if reverse_cycle:
+        cycle.reverse()
     snake = get_snake(len(cycle) - 1)    
     segments = get_segments(cycle, snake)
     char_arr = get_char_arr(cycle, snake, rows, cols)

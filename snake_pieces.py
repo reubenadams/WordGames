@@ -15,7 +15,7 @@ def get_snake_surfs(cell_width, snake_color):
             (cell_width, cell_width / 4),
             (cell_width, 3 * cell_width / 4),
             (cell_width / 2, 3 * cell_width / 4),
-            # (3 * cell_width / 4, cell_width / 2)
+            (5 * cell_width / 8, cell_width / 2)
             ]
         )
 
