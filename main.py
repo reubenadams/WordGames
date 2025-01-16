@@ -22,16 +22,16 @@ from snake_pieces import get_snake_surfs
 from frontend import cell_to_pix, pix_to_cell, draw_squares, draw_snake, draw_chars
 
 
-ORIGINAL_SCREEN_WIDTH = 1200
-ORIGINAL_SCREEN_HEIGHT = 800
-FONTSIZE = 40
+ORIGINAL_SCREEN_WIDTH = 800
+ORIGINAL_SCREEN_HEIGHT = 600
+FONTSIZE = 30
 BACKGROUND_COLOR = 'black'
 TEXT_COLOR = 'white'
 SNAKE_COLOR = 'darkgreen'
 FPS = 60
 
 
-screen_sizes = {
+grid_sizes = {
     pygame.K_t: (4, 4),
     pygame.K_s: (6, 6),
     pygame.K_m: (10, 10),
@@ -40,11 +40,11 @@ screen_sizes = {
 }
 
 cell_widths = {
-    pygame.K_t: 50,
-    pygame.K_s: 50,
-    pygame.K_m: 50,
-    pygame.K_l: 40,
-    pygame.K_h: 40
+    pygame.K_t: 40,
+    pygame.K_s: 40,
+    pygame.K_m: 40,
+    pygame.K_l: 30,
+    pygame.K_h: 30
 }
 
 
@@ -71,9 +71,9 @@ while True:
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key in screen_sizes:
+                if event.key in grid_sizes:
                     game_state = "play"
-                    rows, cols = screen_sizes[event.key]
+                    rows, cols = grid_sizes[event.key]
                     cell_width = cell_widths[event.key]
                     left_buffer, top_buffer = cell_width, cell_width
                     new_screen_width = (cols + 10) * cell_width
