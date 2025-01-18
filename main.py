@@ -55,7 +55,8 @@ clock = pygame.time.Clock()
 
 
 alphabet = "abcdefghijklmnopqrstuvwxyz"
-font = pygame.font.SysFont('arial', FONTSIZE, True)
+# font = pygame.font.SysFont('arial', FONTSIZE, True)
+font = pygame.font.Font('CourierPrime-Bold.ttf', FONTSIZE)
 alphabet_texts = {char: font.render(char, True, 'grey') for char in alphabet}
 
 
